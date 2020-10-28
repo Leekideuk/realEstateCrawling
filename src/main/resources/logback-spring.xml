@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 60초마다 설정파일 확인 후 변경시 갱신 -->
+<configuration scan="true" scanPeriod="60 seconds">
+	<property name="LOG_PATH" value="/home/kideuk/project/2_log/realEstateCrawling/"/>
+	<property name="LOG_FILE_NAME" value="service"/>
+	<property name="LOG_PATTERN" value="%-5level %d{yy-MM-dd HH:mm:ss}[%thread][%logger{0}:%line] - %msg%n"/>
+	
+	<!-- Console Appender --> 
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"> 
+			<pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- File Appender -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- 파일 경로 설정 -->
+		<file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+		
+		<!-- 패턴 설정 -->
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>${LOG_PATTERN}</pattern>	
+		</encoder>
+		
+		<!-- Rolling 정책 설정 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/service/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+	
+	<!-- root레벨 설정 -->
+	<root level="info">
+		<appender-ref ref="CONSOLE"/>
+	</root>
+	
+	<logger name="com.realEstateCrawling" level="debug" additivity="false">
+		<appender-ref ref="CONSOLE"/>
+		<appender-ref ref="FILE"/>
+	</logger>
+	
+</configuration>
